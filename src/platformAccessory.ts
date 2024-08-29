@@ -36,6 +36,7 @@ export class ExamplePlatformAccessory {
 
   setRule(value: CharacteristicValue) {
     this.platform.log.debug('Triggered setRule');
-    // const on = value as boolean;
+    const on = value as boolean;
+    this.platform.log.info('HIT', on);
   }
 }
