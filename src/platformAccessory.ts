@@ -7,7 +7,7 @@ import type {
 import type { ExampleHomebridgePlatform } from './platform.js';
 
 export class ExamplePlatformAccessory {
-  // private fan: Service;
+  private rule: Service;
 
   constructor(
     private readonly platform: ExampleHomebridgePlatform,
@@ -19,24 +19,23 @@ export class ExamplePlatformAccessory {
       .setCharacteristic(this.platform.Characteristic.Model, 'N/A')
       .setCharacteristic(this.platform.Characteristic.SerialNumber, 'N/A');
 
-    // this.fan =
-    //   this.accessory.getService('Fan') ||
-    //   this.accessory.addService(this.platform.Service.Fan, 'Fan', 'fan');
-    // this.fan
-    //   .getCharacteristic(this.platform.Characteristic.On)
-    //   .onGet(this.getFan.bind(this))
-    //   .onSet(this.setFan.bind(this));
+    this.rule =
+      this.accessory.getService('Rule') ||
+      this.accessory.addService(this.platform.Service.Switch, 'Rule', 'rule');
+    this.rule
+      .getCharacteristic(this.platform.Characteristic.On)
+      .onGet(this.getRule.bind(this))
+      .onSet(this.setRule.bind(this));
   }
 
-  // async getFan(): Promise<boolean> {
-  //   this.platform.log.debug('Triggered getFan');
-  //   const value = await this.readRegister(MODE_REGISTER);
-  //   return value !== MODE_OFF;
-  // }
+  getRule() {
+    this.platform.log.debug('Triggered getRule');
+    // TODO
+    return false;
+  }
 
-  // async setFan(value: CharacteristicValue): Promise<void> {
-  //   const on = value as boolean;
-  //   this.platform.log.debug('Triggered setFan');
-  //   this.writeRegister(MODE_REGISTER, on ? MODE_COMFORT_1 : MODE_OFF);
-  // }
+  setRule(value: CharacteristicValue) {
+    this.platform.log.debug('Triggered setRule');
+    // const on = value as boolean;
+  }
 }
