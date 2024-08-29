@@ -9,6 +9,21 @@
         "title": "IP Address",
         "type": "string",
         "required": true
+      },
+      "user": {
+        "title": "User",
+        "type": "string",
+        "required": true
+      },
+      "password": {
+        "title": "Password",
+        "type": "string",
+        "required": true
+      },
+      "rule": {
+        "title": "Rule",
+        "type": "string",
+        "required": true
       }
     }
   }
