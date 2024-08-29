@@ -53,10 +53,9 @@ export class ExamplePlatformAccessory {
       await connection.connect();
       const rules = await connection.write('/ip/firewall/nat/print');
       for (const rule of rules) {
-        this.platform.log.info('OUTPUT', rule);
         if (rule.comment === this.platform.config.rule) {
-          this.platform.log.info('FOUND!');
-          result = true;
+          this.platform.log.info('Reading', rule);
+          result = rule.disabled === 'false';
         }
       }
     } catch (error) {
@@ -69,7 +68,30 @@ export class ExamplePlatformAccessory {
 
   async setRule(value: CharacteristicValue): Promise<void> {
     this.platform.log.debug('Triggered setRule');
-    const on = value as boolean;
-    this.platform.log.info('HIT', on);
+
+    const enabled = value as boolean;
+    const connection = new RouterOSAPI({
+      host: this.platform.config.ip_address,
+      user: this.platform.config.user,
+      password: this.platform.config.password,
+    });
+    try {
+      await connection.connect();
+      const rules = await connection.write('/ip/firewall/nat/print');
+      for (const rule of rules) {
+        if (rule.comment === this.platform.config.rule) {
+          this.platform.log.info('Writing', rule);
+          const output = await connection.write('/ip/firewall/nat/set', [
+            '=.id=' + rule['.id'],
+            '=disabled=' + (enabled ? 'false' : 'true'),
+          ]);
+          this.platform.log.info('OUTPUT', output);
+        }
+      }
+    } catch (error) {
+      this.logError(error);
+    } finally {
+      connection.close();
+    }
   }
 }
