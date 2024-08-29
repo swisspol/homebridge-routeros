@@ -6,6 +6,8 @@ import type {
 
 import type { ExampleHomebridgePlatform } from './platform.js';
 
+import { RouterOSAPI } from 'node-routeros';
+
 export class ExamplePlatformAccessory {
   private rule: Service;
 
@@ -28,22 +30,40 @@ export class ExamplePlatformAccessory {
       .onSet(this.setRule.bind(this));
   }
 
-  getRule() {
-    this.platform.log.debug('Triggered getRule');
-    // TODO
-    return false;
+  logError(error: unknown) {
+    if (error instanceof Error) {
+      this.platform.log.error(error.name, error.message);
+    } else if (typeof error === 'string') {
+      this.platform.log.error(error);
+    } else {
+      this.platform.log.error(typeof error);
+    }
   }
 
-  setRule(value: CharacteristicValue) {
+  async getRule(): Promise<boolean> {
+    this.platform.log.debug('Triggered getRule');
+
+    const result = false;
+    const connection = new RouterOSAPI({
+      host: this.platform.config.ip_address,
+      user: this.platform.config.user,
+      password: this.platform.config.password,
+    });
+    try {
+      await connection.connect();
+      const rules = await connection.write('/ip/firewall/nat/print');
+      this.platform.log.info('OUTPUT', rules);
+    } catch (error) {
+      this.logError(error);
+    } finally {
+      connection.close();
+    }
+    return result;
+  }
+
+  async setRule(value: CharacteristicValue): Promise<void> {
     this.platform.log.debug('Triggered setRule');
     const on = value as boolean;
-    this.platform.log.info(
-      'HIT',
-      this.platform.config.ip_address,
-      this.platform.config.user,
-      this.platform.config.password,
-      this.platform.config.rule,
-      on,
-    );
+    this.platform.log.info('HIT', on);
   }
 }
