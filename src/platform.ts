@@ -37,8 +37,8 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
   }
 
   addAccessory() {
-    const uniqueID = 'komfovent';
-    const displayName = 'Komfovent';
+    const uniqueID = 'routeros';
+    const displayName = 'RouterOS';
 
     const uuid = this.api.hap.uuid.generate(uniqueID);
     const existingAccessory = this.accessories.find(

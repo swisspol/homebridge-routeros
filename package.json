@@ -1,18 +1,18 @@
 {
-  "name": "homebridge-komfovent-modbus",
-  "displayName": "Komfovent Modbus",
+  "name": "homebridge-routeros-firewall",
+  "displayName": "RouterOS Firewall",
   "type": "module",
-  "version": "1.0.12",
+  "version": "1.0.0",
   "description": "A short description about what your plugin does.",
   "author": "Your Name",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/swisspol/homebridge-komfovent#readme",
+  "homepage": "https://github.com/swisspol/homebridge-routeros#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/swisspol/homebridge-komfovent.git"
+    "url": "https://github.com/swisspol/homebridge-routeros.git"
   },
   "bugs": {
-    "url": "https://github.com/swisspol/homebridge-komfovent/issues"
+    "url": "https://github.com/swisspol/homebridge-routeros/issues"
   },
   "keywords": [
     "homebridge-plugin"
@@ -40,10 +40,5 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.0.1"
-  },
-  "dependencies": {
-    "jsmodbus": "^4.0.10",
-    "promise-socket": "^8.0.0",
-    "serialport": "^9.2.8"
   }
 }
