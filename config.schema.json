@@ -1,0 +1,15 @@
+{
+  "pluginAlias": "KomfoventModbus",
+  "pluginType": "platform",
+  "singular": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "ip_address": {
+        "title": "IP Address",
+        "type": "string",
+        "required": true
+      }
+    }
+  }
+}
