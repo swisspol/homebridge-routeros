@@ -43,7 +43,7 @@ export class ExamplePlatformAccessory {
   async getRule(): Promise<boolean> {
     this.platform.log.debug('Triggered getRule');
 
-    const result = false;
+    let result = false;
     const connection = new RouterOSAPI({
       host: this.platform.config.ip_address,
       user: this.platform.config.user,
@@ -52,7 +52,13 @@ export class ExamplePlatformAccessory {
     try {
       await connection.connect();
       const rules = await connection.write('/ip/firewall/nat/print');
-      this.platform.log.info('OUTPUT', rules);
+      for (const rule of rules) {
+        this.platform.log.info('OUTPUT', rule);
+        if (rule.comment === this.platform.config.rule) {
+          this.platform.log.info('FOUND!');
+          result = true;
+        }
+      }
     } catch (error) {
       this.logError(error);
     } finally {
