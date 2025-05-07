@@ -1,7 +1,7 @@
 https://developers.homebridge.io/
 
 ```
-npm run build
+npm run prepublishOnly
 
 npm version patch
 npm publish
